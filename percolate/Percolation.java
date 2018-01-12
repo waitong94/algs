@@ -69,13 +69,13 @@ public class Percolation {
    public     int numberOfOpenSites()       // number of open sites
    {
     int sum=0;
-       for (int i:Percolation.array)
+       for (int i=0; i<Percolation.n*Percolation.n; i++)
            sum=sum+Percolation.array[i];
-    return sum; //TODO this is still wrong
+    return sum; 
    }
    public boolean percolates()              // does the system percolate?
    {
-       return qUnion.connected(top,bottom); //TODO placeholder
+       return qUnion.connected(top,bottom); 
    }
 //
    public static void main(String[] args)       // test client (optional)
@@ -85,23 +85,23 @@ public class Percolation {
        StdArrayIO.print(grid.array);
        boolean isPercolated= grid.percolates();
        StdRandom.setSeed(1);
-       while(!isPercolated)
-       {
-           int i=StdRandom.uniform(n)+1;
-           int j=StdRandom.uniform(n)+1;//choose a site at random
-//           i=2;
-//           j=1;
-//           grid.open(i,j);//open the site
-//           i=1;
-//           grid.open(i,j);//open the site
-//           i=3;
-           grid.open(i,j);//open the site
-           StdArrayIO.print(grid.array);
-           StdOut.println("i="+String.valueOf(i)+" j="+j+" n="+Percolation.n);
-           isPercolated=grid.percolates();//check
-           StdOut.println(isPercolated);
-           StdOut.println(grid.numberOfOpenSites());
-       }
+//       while(!isPercolated)
+//       {
+       int i=StdRandom.uniform(n)+1;
+       int j=StdRandom.uniform(n)+1;//choose a site at random
+       i=2;
+       j=1;
+       grid.open(i,j);//open the site
+       i=1;
+       grid.open(i,j);//open the site
+       i=3;
+       grid.open(i,j);//open the site
+       StdArrayIO.print(grid.array);
+       StdOut.println("i="+String.valueOf(i)+" j="+j+" n="+Percolation.n);
+       isPercolated=grid.percolates();//check
+       StdOut.println(isPercolated);
+       StdOut.println(grid.numberOfOpenSites());
+//       }
        
    }
 }
