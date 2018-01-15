@@ -1,7 +1,7 @@
 import edu.princeton.cs.algs4.StdRandom;
 import edu.princeton.cs.algs4.StdOut;
 import edu.princeton.cs.algs4.StdArrayIO; //TODO remove this after testing
-//TODO backwash
+//TODO refactor
 import edu.princeton.cs.algs4.WeightedQuickUnionUF; 
 
 public class Percolation {
@@ -14,7 +14,7 @@ public class Percolation {
    private static WeightedQuickUnionUF qUnion;
    private static int index(int row,int col)
    {
-       int i=Percolation.n*(row-1)+col-1;
+       int i=Percolation.n*(row-1)+col;
        return i;
    }
     
@@ -22,14 +22,17 @@ public class Percolation {
    {
        if (n<=0)
            throw new IllegalArgumentException();
-       this.array= new int[n*n];
+       this.array= new int[n*n+1];
        this.n=n;
-       this.qUnion=new WeightedQuickUnionUF((Percolation.n*Percolation.n)+3);
-       this.empty=Percolation.n*Percolation.n+2;
+       this.qUnion=new WeightedQuickUnionUF((this.n*this.n)+3);
+       this.empty=0;
+       this.top=this.n*this.n+1;
+       this.bottom=this.n*this.n+2;
        for(int i = 0; i<this.n*this.n; i++)
+       {
            this.array[i]=this.empty;
-       this.top=Percolation.n*Percolation.n;
-       this.bottom=Percolation.n*Percolation.n+1;
+       }
+      
    }
    public    void open(int row, int col)    // open site (row, col) if it is not open already
    {
@@ -72,7 +75,7 @@ public class Percolation {
               qUnion.union(Percolation.array[index(row,colMinus)],Percolation.array[i]);
               StdOut.println("union with left");
        }
-       if(row==Percolation.n) //union with bottom ghost cell if on first row 
+       if(row==Percolation.n && qUnion.connected(Percolation.top,Percolation.array[i])) //union with bottom ghost cell if on first row 
        {
            StdOut.println("Bottom: "+Percolation.bottom);
            qUnion.union(Percolation.array[i],Percolation.bottom);
@@ -93,13 +96,26 @@ public class Percolation {
        if (row<=0 || col<=0 || row>n || col>n)
            throw new IllegalArgumentException();
        int i=index(row,col);
+       
+       
+       if(row==Percolation.n && qUnion.connected(Percolation.top,Percolation.array[i])) //union with bottom ghost cell if on first row 
+       {
+           StdOut.println("Bottom: "+Percolation.bottom);
+           qUnion.union(Percolation.array[i],Percolation.bottom);
+           StdOut.println("union with bottom");
+       }
        return qUnion.connected(Percolation.top,Percolation.array[i]);
+
+
    }
    public     int numberOfOpenSites()       // number of open sites
    {
     int sum=0;
-       for (int i=0; i<Percolation.n*Percolation.n; i++)
-           sum=sum+Percolation.array[i];
+    for (int i=0; i<Percolation.n*Percolation.n; i++)
+    {
+           if (Percolation.array[i]!=Percolation.empty)
+           sum=sum+1;
+    }
     return sum; 
    }
    public boolean percolates()              // does the system percolate?
