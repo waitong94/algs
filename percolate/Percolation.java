@@ -1,7 +1,7 @@
 import edu.princeton.cs.algs4.StdRandom;
 import edu.princeton.cs.algs4.StdOut;
 import edu.princeton.cs.algs4.StdArrayIO; //TODO remove this after testing
-//TODO refactor
+//TODO refactor and code has been written for PercVis; test more rigorously to see if isPercolatses works without without isFull
 import edu.princeton.cs.algs4.WeightedQuickUnionUF; 
 
 public class Percolation {
