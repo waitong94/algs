@@ -1,7 +1,7 @@
 import edu.princeton.cs.algs4.StdRandom;
 import edu.princeton.cs.algs4.StdOut;
 import edu.princeton.cs.algs4.StdArrayIO; //TODO remove this after testing
-
+//TODO play around with refactoring code.
 import edu.princeton.cs.algs4.WeightedQuickUnionUF; 
 
 public class Percolation {
