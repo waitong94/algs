@@ -1,7 +1,7 @@
 import edu.princeton.cs.algs4.StdRandom;
 import edu.princeton.cs.algs4.StdOut;
 import edu.princeton.cs.algs4.StdArrayIO; //TODO remove this after testing
-//TODO refactor and code has been written for PercVis; test more rigorously to see if isPercolatses works without without isFull
+
 import edu.princeton.cs.algs4.WeightedQuickUnionUF; 
 
 public class Percolation {
@@ -75,12 +75,13 @@ public class Percolation {
               qUnion.union(Percolation.array[index(row,colMinus)],Percolation.array[i]);
               StdOut.println("union with left");
        }
-       if(row==Percolation.n && qUnion.connected(Percolation.top,Percolation.array[i])) //union with bottom ghost cell if on first row 
+
+       for (int it=0;it<n;it++)
        {
-           StdOut.println("Bottom: "+Percolation.bottom);
-           qUnion.union(Percolation.array[i],Percolation.bottom);
-           StdOut.println("union with bottom");
+           if (qUnion.connected(Percolation.array[i], Percolation.array[index(n,it+1)])&&qUnion.connected(Percolation.top,Percolation.array[i]))
+               qUnion.union(Percolation.array[i],Percolation.bottom);
        }
+
   
        StdOut.println("Full? "+isFull(row,col));
    }
@@ -98,12 +99,12 @@ public class Percolation {
        int i=index(row,col);
        
        
-       if(row==Percolation.n && qUnion.connected(Percolation.top,Percolation.array[i])) //union with bottom ghost cell if on first row 
-       {
-           StdOut.println("Bottom: "+Percolation.bottom);
-           qUnion.union(Percolation.array[i],Percolation.bottom);
-           StdOut.println("union with bottom");
-       }
+//       if(row==Percolation.n && qUnion.connected(Percolation.top,Percolation.array[i])) //union with bottom ghost cell if on first row 
+//       {
+//           StdOut.println("Bottom: "+Percolation.bottom);
+//           qUnion.union(Percolation.array[i],Percolation.bottom);
+//           StdOut.println("union with bottom");
+//       }
        return qUnion.connected(Percolation.top,Percolation.array[i]);
 
 
