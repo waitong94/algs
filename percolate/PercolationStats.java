@@ -19,7 +19,6 @@ public class PercolationStats {
        this.trials=trials;
        if (n<=0 || trials<=0)
            throw new IllegalArgumentException();
-       StdRandom.setSeed(1);
        
        openSites=new double[trials];
        for (int it=0;it<trials;it++)

@@ -1,6 +1,5 @@
 import edu.princeton.cs.algs4.StdRandom;
 import edu.princeton.cs.algs4.StdOut;
-import edu.princeton.cs.algs4.StdArrayIO; //TODO remove this after testing
 //TODO play around with refactoring code.
 import edu.princeton.cs.algs4.WeightedQuickUnionUF; 
 
@@ -39,41 +38,31 @@ public class Percolation {
        if (row<=0 || col<=0 || row>n || col>n)
            throw new IllegalArgumentException();
        int i=index(row,col);
-       StdOut.println(i);
        Percolation.array[i]=i;
        int rowMinus=row-1;
        int rowPlus=row+1;
        int colPlus=col+1;
        int colMinus=col-1;
-       StdOut.println("index="+i);
-       StdOut.println(index(rowMinus,col)+" "+rowMinus+" "+row+" "+col+" "+Percolation.n);
-       
        if(row==1) //union with top ghost cell if on first row 
        {
            qUnion.union(Percolation.top,Percolation.array[i]);
-           StdOut.println("union with top");
-           StdOut.println("Top: "+Percolation.top);
        }
   
        if(rowMinus>0&&isOpen(rowMinus,col))//union with adjecent open cell  
        {
               qUnion.union(Percolation.array[index(rowMinus,col)],Percolation.array[i]);
-              StdOut.println("union with above");
        }
        if(rowPlus<=Percolation.n && isOpen(rowPlus,col))//union with adjecent open cell
        {
               qUnion.union(Percolation.array[index(rowPlus,col)],Percolation.array[i]);
-              StdOut.println("union with below");
        }
        if(colPlus<=Percolation.n&&isOpen(row,colPlus))//union with adjecent open cell
        {
               qUnion.union(Percolation.array[index(row,colPlus)],Percolation.array[i]);
-              StdOut.println("union with right");
        }
        if(colMinus>0&&isOpen(row,colMinus))//union with adjecent open cell
        {
               qUnion.union(Percolation.array[index(row,colMinus)],Percolation.array[i]);
-              StdOut.println("union with left");
        }
 
        for (int it=0;it<n;it++)
@@ -81,9 +70,6 @@ public class Percolation {
            if (qUnion.connected(Percolation.array[i], Percolation.array[index(n,it+1)])&&qUnion.connected(Percolation.top,Percolation.array[i]))
                qUnion.union(Percolation.array[i],Percolation.bottom);
        }
-
-  
-       StdOut.println("Full? "+isFull(row,col));
    }
    public boolean isOpen(int row, int col)  // is site (row, col) open?
    {
@@ -97,14 +83,6 @@ public class Percolation {
        if (row<=0 || col<=0 || row>n || col>n)
            throw new IllegalArgumentException();
        int i=index(row,col);
-       
-       
-//       if(row==Percolation.n && qUnion.connected(Percolation.top,Percolation.array[i])) //union with bottom ghost cell if on first row 
-//       {
-//           StdOut.println("Bottom: "+Percolation.bottom);
-//           qUnion.union(Percolation.array[i],Percolation.bottom);
-//           StdOut.println("union with bottom");
-//       }
        return qUnion.connected(Percolation.top,Percolation.array[i]);
 
 
@@ -128,10 +106,7 @@ public class Percolation {
    {
        int n=3;
        Percolation grid= new Percolation(n); //initialise all sites to be blocked
-       StdArrayIO.print(grid.array);
        boolean isPercolated= grid.percolates();
-       StdOut.println("Percolates? "+grid.percolates());
-       StdRandom.setSeed(1);
 //       while(!isPercolated)
 //       {
        int i=StdRandom.uniform(n)+1;
@@ -141,16 +116,10 @@ public class Percolation {
 //       grid.open(i,j);//open the site
        i=1;
        grid.open(i,j);//open the site
-       StdOut.println("Percolates? "+grid.percolates());
        i=3;
        grid.open(i,j);//open the site
-       StdOut.println("Percolates? "+grid.percolates());
        grid.open(2,2);//open the site
-       StdArrayIO.print(grid.array);
-       StdOut.println("i="+String.valueOf(i)+" j="+j+" n="+Percolation.n);
        isPercolated=grid.percolates();//check
-       StdOut.println(isPercolated);
-       StdOut.println(grid.numberOfOpenSites());
 //       }
        
    }
