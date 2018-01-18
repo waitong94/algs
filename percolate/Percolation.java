@@ -21,15 +21,15 @@ public class Percolation {
    {
        if (n<=0)
            throw new IllegalArgumentException();
-       this.array= new int[n*n+1];
-       this.n=n;
-       this.qUnion=new WeightedQuickUnionUF((this.n*this.n)+3);
-       this.empty=0;
-       this.top=this.n*this.n+1;
-       this.bottom=this.n*this.n+2;
-       for(int i = 0; i<this.n*this.n; i++)
+       Percolation.array= new int[n*n+1];
+       Percolation.n=n;
+       Percolation.qUnion=new WeightedQuickUnionUF((Percolation.n*Percolation.n)+3);
+       Percolation.empty=0;
+       Percolation.top=Percolation.n*Percolation.n+1;
+       Percolation.bottom=Percolation.n*Percolation.n+2;
+       for(int i = 0; i<Percolation.n*Percolation.n+1; i++)
        {
-           this.array[i]=this.empty;
+           Percolation.array[i]=Percolation.empty;
        }
       
    }
@@ -87,7 +87,7 @@ public class Percolation {
 
 
    }
-   public     int numberOfOpenSites()       // number of open sites
+   public     int numberOfOpenSites()       // number of open sites TODO number ofOpen sites not reliale
    {
     int sum=0;
     for (int i=0; i<Percolation.n*Percolation.n; i++)
@@ -95,7 +95,7 @@ public class Percolation {
            if (Percolation.array[i]!=Percolation.empty)
            sum=sum+1;
     }
-    return sum; 
+    return sum; //FIX FOR CORRECTNESS TEST 2 TODO doesnt work
    }
    public boolean percolates()              // does the system percolate?
    {
