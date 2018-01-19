@@ -9,10 +9,10 @@ public class Percolation {
    
    private int[] array;
    private int n;
-   private static int top;
-   private static int bottom;
-   private static int empty;
-   private static WeightedQuickUnionUF qUnion;
+   private int top;
+   private int bottom;
+   private  int empty;
+   private  WeightedQuickUnionUF qUnion;
    private int index(int row,int col)
    {
        int i=n*(row-1)+col;
@@ -25,13 +25,13 @@ public class Percolation {
            throw new IllegalArgumentException();
        array= new int[n*n+1];
        this.n=n;
-       Percolation.qUnion=new WeightedQuickUnionUF((n*n)+3);
-       Percolation.empty=0;
-       Percolation.top=n*n+1;
-       Percolation.bottom=n*n+2;
+       qUnion=new WeightedQuickUnionUF((n*n)+3);
+       empty=0;
+       top=n*n+1;
+       bottom=n*n+2;
        for(int i = 0; i<array.length; i++)
        {
-           array[i]=Percolation.empty;
+           array[i]=empty;
        }
       
    }
@@ -47,7 +47,7 @@ public class Percolation {
        int colMinus=col-1;
        if(row==1) //union with top ghost cell if on first row 
        {
-           qUnion.union(Percolation.top,array[i]);
+           qUnion.union(top,array[i]);
        }
   
        if(rowMinus>0&&isOpen(rowMinus,col))//union with adjecent open cell  
@@ -69,8 +69,8 @@ public class Percolation {
 
        for (int it=0;it<n;it++)
        {
-           if (qUnion.connected(array[i], array[index(n,it+1)])&&qUnion.connected(Percolation.top,array[i]))
-               qUnion.union(array[i],Percolation.bottom);
+           if (qUnion.connected(array[i], array[index(n,it+1)])&&qUnion.connected(top,array[i]))
+               qUnion.union(array[i],bottom);
        }
    }
    public boolean isOpen(int row, int col)  // is site (row, col) open?
@@ -78,14 +78,14 @@ public class Percolation {
        if (row<=0 || col<=0 || row>n || col>n)
            throw new IllegalArgumentException();
        int i=index(row,col);
-       return array[i]!=Percolation.empty;   
+       return array[i]!=empty;   
    }
    public boolean isFull(int row, int col)  // is site (row, col) full?
    {
        if (row<=0 || col<=0 || row>n || col>n)
            throw new IllegalArgumentException();
        int i=index(row,col);
-       return qUnion.connected(Percolation.top,array[i]);
+       return qUnion.connected(top,array[i]);
 
 
    }
@@ -94,14 +94,14 @@ public class Percolation {
     int sum=0;
     for (int i=0; i<array.length; i++)
     {
-           if (array[i]!=Percolation.empty)
+           if (array[i]!=empty)
            sum=sum+1;
     }
     return sum; //FIX FOR CORRECTNESS TEST 2 TODO doesnt work
    }
    public boolean percolates()              // does the system percolate?
    {
-       return qUnion.connected(Percolation.top,Percolation.bottom); 
+       return qUnion.connected(top,bottom); 
    }
 //
    public static void main(String[] args)       // test client (optional)
