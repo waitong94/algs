@@ -37,6 +37,8 @@ public class Percolation {
    }
    public    void open(int row, int col)    // open site (row, col) if it is not open already
    {
+       if(isOpen(row,col)) 
+              return;
        if (row<=0 || col<=0 || row>n || col>n)
            throw new IllegalArgumentException();
        int i=index(row,col);
@@ -118,7 +120,7 @@ public class Percolation {
 
 
 
-       grid.open(i,j);//open the site
+           grid.open(i,j);//open the site
 
       
        isPercolated=grid.percolates();//check
