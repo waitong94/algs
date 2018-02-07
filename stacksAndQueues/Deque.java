@@ -96,6 +96,8 @@ public class Deque<Item> implements Iterable<Item> {
         test.testAddLastRemoveFirstAscending(deqInt, 100);
         test.testAddLastRemoveLastDescending(deqInt, 100);
         test.testAddFirstRemoveFirstDescending(deqInt, 100);
+        test.testIterator(deque);
+
         //        while(!StdIn.isEmpty())
 //        {
 //            String item = StdIn.readString();

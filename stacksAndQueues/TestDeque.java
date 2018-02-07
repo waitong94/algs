@@ -1,3 +1,4 @@
+import edu.princeton.cs.algs4.StdOut;
 public class TestDeque{
     private Deque<String> deque = new Deque<String>();
     //test isEmpty
@@ -67,6 +68,17 @@ public class TestDeque{
         }
         assert deque.isEmpty(): n;
 
+    }
+
+    public void testIterator(Deque<String> deque)
+    {
+        deque.addFirst("Hello");
+        deque.addFirst("World");
+        deque.addFirst("how");
+        deque.addFirst("are");
+        deque.addFirst("you");
+        for (String s : deque)
+            StdOut.println(s);
     }
 
     public static void main(String[] args){
