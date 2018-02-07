@@ -88,15 +88,15 @@ public class Deque<Item> implements Iterable<Item> {
 
     public static void main(String[] args)   // unit testing (optional)
     {
-        Deque<String> deque = new Deque<String>();
-        Deque<Integer> deqInt = new Deque<Integer>();
-        TestDeque test = new TestDeque();
-        test.testIsEmpty(deque);
-        test.testAddFirstRemoveLastAscending(deqInt, 100);
-        test.testAddLastRemoveFirstAscending(deqInt, 100);
-        test.testAddLastRemoveLastDescending(deqInt, 100);
-        test.testAddFirstRemoveFirstDescending(deqInt, 100);
-        test.testIterator(deque);
+//        Deque<String> deque = new Deque<String>();
+//        Deque<Integer> deqInt = new Deque<Integer>();
+//        TestDeque test = new TestDeque();
+//        test.testIsEmpty(deque);
+//        test.testAddFirstRemoveLastAscending(deqInt, 100);
+//        test.testAddLastRemoveFirstAscending(deqInt, 100);
+//        test.testAddLastRemoveLastDescending(deqInt, 100);
+//        test.testAddFirstRemoveFirstDescending(deqInt, 100);
+//        test.testIterator(deque);
 
         //        while(!StdIn.isEmpty())
 //        {

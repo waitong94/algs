@@ -1,7 +1,6 @@
 import edu.princeton.cs.algs4.StdRandom;
 import edu.princeton.cs.algs4.StdOut;
 import edu.princeton.cs.algs4.StdIn;
-import edu.princeton.cs.algs4.ResizingArrayBag; //TODO remove
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
@@ -78,10 +77,10 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
     }
     public static void main(String[] args)   // unit testing (optional)
     {
-        TestRandomizedQueue test = new TestRandomizedQueue();
-        RandomizedQueue<String> q = new RandomizedQueue<String>();
-        test.testSize(q);
-        RandomizedQueue<String> a = new RandomizedQueue<String>();
-        test.testIterator(a);
+//        TestRandomizedQueue test = new TestRandomizedQueue();
+//        RandomizedQueue<String> q = new RandomizedQueue<String>();
+//        test.testSize(q);
+//        RandomizedQueue<String> a = new RandomizedQueue<String>();
+//        test.testIterator(a);
     }
 }
