@@ -1,13 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="753b6231-bb4b-464c-b52f-cd7520ac4928" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/Deque.class" afterPath="$PROJECT_DIR$/Deque.class" />
-      <change beforePath="$PROJECT_DIR$/Deque.java" afterPath="$PROJECT_DIR$/Deque.java" />
-      <change beforePath="$PROJECT_DIR$/RandomizedQueue$ReverseArrayIterator.class" afterPath="$PROJECT_DIR$/RandomizedQueue$ReverseArrayIterator.class" />
-      <change beforePath="$PROJECT_DIR$/RandomizedQueue.class" afterPath="$PROJECT_DIR$/RandomizedQueue.class" />
-      <change beforePath="$PROJECT_DIR$/RandomizedQueue.java" afterPath="$PROJECT_DIR$/RandomizedQueue.java" />
-    </list>
+    <list default="true" id="753b6231-bb4b-464c-b52f-cd7520ac4928" name="Default" comment="" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -42,8 +36,8 @@
       <file leaf-file-name="RandomizedQueue.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/RandomizedQueue.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="213">
-              <caret line="77" column="22" lean-forward="true" selection-start-line="77" selection-start-column="22" selection-end-line="77" selection-end-column="22" />
+            <state relative-caret-position="177">
+              <caret line="75" column="20" lean-forward="true" selection-start-line="75" selection-start-column="20" selection-end-line="75" selection-end-column="20" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -125,7 +119,7 @@
   </component>
   <component name="ProjectFrameBounds">
     <option name="x" value="75" />
-    <option name="y" value="34" />
+    <option name="y" value="24" />
     <option name="width" value="1195" />
     <option name="height" value="655" />
   </component>
@@ -289,7 +283,7 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="75" y="34" width="1195" height="655" extended-state="0" />
+    <frame x="75" y="24" width="1195" height="655" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -465,8 +459,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/RandomizedQueue.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="213">
-          <caret line="77" column="22" lean-forward="true" selection-start-line="77" selection-start-column="22" selection-end-line="77" selection-end-column="22" />
+        <state relative-caret-position="177">
+          <caret line="75" column="20" lean-forward="true" selection-start-line="75" selection-start-column="20" selection-end-line="75" selection-end-column="20" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
