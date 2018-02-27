@@ -106,8 +106,7 @@ public class Point implements Comparable<Point> {
         return new SlopeOrder();
     }
 
-    private class  SlopeOrder() implements Comparator<Point>
-    {
+    private class  SlopeOrder implements Comparator<Point> {
         public int compare(Point p, Point q)
         {
             double slope1 = slopeTo(p);
@@ -128,7 +127,7 @@ public class Point implements Comparable<Point> {
      */
     public String toString() {
         /* DO NOT MODIFY */
-        return "(" + x + ", " + y + ")";
+        return "(" + x + ", " + y + ")= new ";
     }
 
     /**
