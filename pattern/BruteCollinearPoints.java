@@ -17,19 +17,20 @@ public class BruteCollinearPoints {
         Point p;
         Point s;
         LineSegment[] lines = new LineSegment[size/2];
+
         for (int i = 0; i < size - 3; i++)
         {
             for (int j = i+1; j < size - 2; j++)
             {
                 for (int k = j+1; k < size - 1; j++)
                 {
-                    for (int l = ; k < size; k++)
+                    for (int l = k+1 ; l < size; k++)
                     {
                         if (isCollinear(points[i],points[j],points[k],points[l]))
                         {
                             p = findFirst(points[i],points[j],points[k],points[l]);
                             s = findLast(points[i],points[j],points[k],points[l]);
-                            lines[nLines] = LineSegment(p,s);
+                            lines[nLines] = new LineSegment(p,s);
                             nLines++;
                         }
                     }
@@ -59,14 +60,14 @@ public class BruteCollinearPoints {
             first = s;
         return first;
     }
-    private Point findlast(Point p, Point q, Point r, Point s)
+    private Point findLast(Point p, Point q, Point r, Point s)
     {
         Point last = p;
-        if (first.compareTo(q) > 0)
+        if (last.compareTo(q) > 0)
             last = q;
-        if (first.compareTo(r) > 0)
+        if (last.compareTo(r) > 0)
             last = r;
-        if (first.compareTo(s) > 0)
+        if (last.compareTo(s) > 0)
             last = s;
         return last;
     }
