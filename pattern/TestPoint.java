@@ -29,6 +29,5 @@ public class TestPoint
     public static void main(String[] args){
         TestPoint test = new TestPoint();
         test.testSlopeTo(); //passed
-        test.testCompareTo();;
     }
 }
