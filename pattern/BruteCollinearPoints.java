@@ -22,7 +22,6 @@ public class BruteCollinearPoints {
         Point p;
         Point s;
         LineSegment[] lines = new LineSegment[size*2];
-        StdOut.print(size);
         for (int i = 0; i < size - 3; i++)
         {
             for (int j = i+1; j < size - 2; j++)
@@ -34,16 +33,11 @@ public class BruteCollinearPoints {
 
                         if (isCollinear(points[i],points[j],points[k],points[l]))
                         {
-                            StdOut.print(i);
-                            StdOut.print(j);
-                            StdOut.print(k);
-                            StdOut.println(l);
                             p = findFirst(points[i],points[j],points[k],points[l]);
                             s = findLast(points[i],points[j],points[k],points[l]);
 
                             lines[nLines] = new LineSegment(p,s);
                             nLines++;
-                            StdOut.println(nLines);
                         }
                     }
                 }
@@ -52,11 +46,10 @@ public class BruteCollinearPoints {
         LineSegment[] ans = new LineSegment[nLines];
         for (int i = 0; i < nLines; i++)
             ans[i] = lines[i];
-        StdOut.println("lines: "+nLines);
         return ans;
     }
 
-    public boolean isCollinear(Point p, Point q, Point r, Point s)
+    private boolean isCollinear(Point p, Point q, Point r, Point s)
     {
         if (p.slopeTo(q) == p.slopeTo(r))
             return p.slopeTo(q) == p.slopeTo(s);
@@ -103,7 +96,6 @@ public class BruteCollinearPoints {
         StdDraw.setYscale(0, 32768);
         for (Point p : points) {
             p.draw();
-            StdOut.println("Points printed");
         }
         StdDraw.show();
 
