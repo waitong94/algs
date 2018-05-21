@@ -1,3 +1,5 @@
+import java.util.LinkedList;
+
 public class Board {
     private int[][] blocks;
     private int N;
@@ -5,7 +7,7 @@ public class Board {
     private int rowLength;
     private int indexToGoalVal(int i, int j)
     {
-        i*N + j + 1;
+        return i*N + j + 1;
     }
     private int valToRow(int val)
     {
@@ -40,7 +42,7 @@ public class Board {
     }
     public int manhattan()                 // sum of Manhattan distances between blocks and goal
     {
-        int distance;
+        int distance = 0;
         for (int i = 0; i < N; i++)
         {
             for (int j = 0; j < N; j++)
@@ -84,30 +86,32 @@ public class Board {
             for (int j = 0; j < blocks.length - 1; j++)
             {
                 if (blocks[i][j] != 0 && blocks[i][j+1] != 0 )
-                {
                     return new Board(arraySwap(i, j, i, j+1));
-                }
             }
         }
+        return null;
     }
 
-    public boolean equals(Object y)        // does this board equal y?
+    public boolean equals(Board y)        // does this board equal y?
     {
         for (int i = 0; i < blocks.length;i++) {
             for (int j = 0; j < blocks.length; j++) {
                 if (blocks[i][j] != y.blocks[i][j])
-                    return false
+                    return false;
             }
         }
         return true;
     }
     public Iterable<Board> neighbors()     // all neighboring boards
     {
-        LinkedList<Board> neighbor = new LinkedList<Board>;
+        LinkedList<Board> neighbor = new LinkedList<Board>();
         //locate index of 0
-        int iZero;
-        int jZero;
-        int iMinus;
+        int iZero = 0;
+        int jZero = 0;
+        int iMinus = 0;
+        int jMinus = 0;
+        int iPlus = 0;
+        int jPlus = 0;
         int[][] copy;
         for (int i = 0; i < blocks.length;i++) {
             for (int j = 0; j < blocks.length; j++) {
@@ -125,13 +129,13 @@ public class Board {
 
         //generate arrays
         if (iMinus >= 0)
-            neighbor.add(Board(arraySwap(iZero, jZero, iMinus, jZero)));
+            neighbor.add(new Board(arraySwap(iZero, jZero, iMinus, jZero)));
         if (jMinus >= 0)
-            neighbor.add(Board(arraySwap(iZero, jZero, iZero, jMinus)));
+            neighbor.add(new Board(arraySwap(iZero, jZero, iZero, jMinus)));
         if (iPlus < N)
-            neighbor.add(Board(arraySwap(iZero, jZero, iPlus, jZero)));
+            neighbor.add(new Board(arraySwap(iZero, jZero, iPlus, jZero)));
         if (jPlus >= 0)
-            neighbor.add(Board(arraySwap(iZero, jZero, iZero, jPlus)));
+            neighbor.add(new Board(arraySwap(iZero, jZero, iZero, jPlus)));
 
         return neighbor;
     }
@@ -142,7 +146,7 @@ public class Board {
         str.append(dimension() + "\n");
         for (int i = 0; i < blocks.length;i++) {
             for (int j = 0; j < blocks.length; j++) {
-                str.append(String.format("%2d ", blocks[i][j]))
+                str.append(String.format("%2d ", blocks[i][j]));
             }
             str.append("\n");
         }
