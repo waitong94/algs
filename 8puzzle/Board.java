@@ -1,4 +1,6 @@
 import java.util.LinkedList;
+import edu.princeton.cs.algs4.In;
+import edu.princeton.cs.algs4.StdOut;
 
 public class Board {
     private int[][] blocks;
@@ -154,6 +156,22 @@ public class Board {
     }
     public static void main(String[] args) // unit tests (not graded){
     {
+        // read file top create board
+        In in = new In(args[0]);
+        int n = in.readInt();
+        int[][] array = new int[n][n];
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++) {
+                array[i][j] = in.readInt();
+            }
+        }
+        Board board = new Board(array);
+        //test hamming
+        int testHamming = board.hamming();
+        StdOut.println("hamming: " + testHamming);
+        //test manhattan
+        int testManhattan = board.manhattan();
+        StdOut.println("manhattan: " + testManhattan);
 
     }
 }
