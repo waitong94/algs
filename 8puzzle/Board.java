@@ -104,6 +104,8 @@ public class Board {
         }
         return true;
     }
+
+    //TODO FIX ITERABLE: issue - code doesnt know that new object has been genrated
     public Iterable<Board> neighbors()     // all neighboring boards
     {
         LinkedList<Board> neighbor = new LinkedList<Board>();
@@ -114,7 +116,6 @@ public class Board {
         int jMinus = 0;
         int iPlus = 0;
         int jPlus = 0;
-        int[][] copy;
         for (int i = 0; i < blocks.length;i++) {
             for (int j = 0; j < blocks.length; j++) {
                 if (blocks[i][j] == 0) {
@@ -126,19 +127,35 @@ public class Board {
         //calculate neighbour arrays
         iMinus = iZero - 1;
         iPlus = iZero + 1;
-        jMinus = jMinus + 1;
+        jMinus = jMinus - 1;
         jPlus = jPlus + 1;
 
+        StdOut.println(iMinus + ", "+iPlus + ", " + jMinus + ", "+jPlus);
         //generate arrays
-        if (iMinus >= 0)
-            neighbor.add(new Board(arraySwap(iZero, jZero, iMinus, jZero)));
-        if (jMinus >= 0)
-            neighbor.add(new Board(arraySwap(iZero, jZero, iZero, jMinus)));
-        if (iPlus < N)
-            neighbor.add(new Board(arraySwap(iZero, jZero, iPlus, jZero)));
-        if (jPlus >= 0)
-            neighbor.add(new Board(arraySwap(iZero, jZero, iZero, jPlus)));
-
+        if (iMinus >= 0) {
+            int[][] arrayOne = arraySwap(iZero, jZero, iMinus, jZero);
+            Board boardOne = new Board(arrayOne);
+            StdOut.println("Board1: "+ boardOne);
+            neighbor.add(boardOne);
+        }
+        if (jMinus >= 0) {
+            int[][] arrayTwo = arraySwap(iZero, jZero, iZero, jMinus);
+            Board boardTwo = new Board(arrayTwo);
+            StdOut.println("Board2: "+ boardTwo);
+            neighbor.add(boardTwo);
+        }
+        if (iPlus < N) {
+            int[][] arrayThree = arraySwap(iZero, jZero, iPlus, jZero);
+            Board boardThree = new Board(arrayThree);
+            StdOut.println("Board3: "+ boardThree);
+            neighbor.add(boardThree);
+        }
+        if (jPlus < N) {
+            int[][] arrayFour = arraySwap(iZero, jZero, iZero, jPlus);
+            Board boardFour = new Board(arrayFour);
+            StdOut.println("Board4: "+ boardFour);
+            neighbor.add(boardFour);
+        }
         return neighbor;
     }
 
@@ -172,6 +189,13 @@ public class Board {
         //test manhattan
         int testManhattan = board.manhattan();
         StdOut.println("manhattan: " + testManhattan);
+        StdOut.println(board);
+        //test neighbour
+        for (Board i : board.neighbors())
+        {
+            StdOut.println(i.toString());
+        }
+        StdOut.println(board);
 
     }
 }
