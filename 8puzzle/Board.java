@@ -1,6 +1,7 @@
 import java.util.LinkedList;
 import edu.princeton.cs.algs4.In;
 import edu.princeton.cs.algs4.StdOut;
+import edu.princeton.cs.algs4.StdArrayIO;
 
 public class Board {
     private int[][] blocks;
@@ -72,12 +73,26 @@ public class Board {
         }
         return true;
     }
+    private int[][] deepCopy(int[][] array)
+    {
+        int[][] copy = new int[N][N];
+        for (int i = 0; i < N; i++){
+            for (int j = 0; j < N; j++){
+                copy[i][j] = array[i][j];
+            }
+        }
+        return copy;
+    }
     private int[][] arraySwap(int iOne, int jOne, int iTwo, int jTwo) //takes int  array coordinates and returns swapped array
     {
-        int[][] copy = blocks;
+        int[][] copy = new int[N][N];
+        copy = deepCopy(blocks);
+        StdOut.println("Test ArraySwap");
         int temp = copy[iOne][jOne];
         copy[iOne][jOne] = copy[iTwo][jTwo];
         copy[iTwo][jTwo] = temp;
+        StdArrayIO.print(blocks);
+        StdArrayIO.print(copy);
         return copy;
     }
     public Board twin()                    // a board that is obtained by exchanging any pair of blocks
@@ -127,39 +142,47 @@ public class Board {
         //calculate neighbour arrays
         iMinus = iZero - 1;
         iPlus = iZero + 1;
-        jMinus = jMinus - 1;
-        jPlus = jPlus + 1;
+        jMinus = jZero - 1;
+        jPlus = jZero + 1;
 
         StdOut.println(iMinus + ", "+iPlus + ", " + jMinus + ", "+jPlus);
         //generate arrays
         if (iMinus >= 0) {
             int[][] arrayOne = arraySwap(iZero, jZero, iMinus, jZero);
-            Board boardOne = new Board(arrayOne);
-            StdOut.println("Board1: "+ boardOne);
-            neighbor.add(boardOne);
+            StdOut.println(iMinus + ", "+iPlus + ", " + jMinus + ", "+jPlus);
+//            Board boardOne = new Board(arrayOne);
+//            StdOut.println("Board1: "+ boardOne);
+//            neighbor.add(boardOne);
         }
         if (jMinus >= 0) {
             int[][] arrayTwo = arraySwap(iZero, jZero, iZero, jMinus);
-            Board boardTwo = new Board(arrayTwo);
-            StdOut.println("Board2: "+ boardTwo);
-            neighbor.add(boardTwo);
+            StdOut.println(iMinus + ", "+iPlus + ", " + jMinus + ", "+jPlus);
+//            Board boardTwo = new Board(arrayTwo);
+//            StdOut.println("Board2: "+ boardTwo);
+//            neighbor.add(boardTwo);
         }
         if (iPlus < N) {
+            StdArrayIO.print(blocks);
             int[][] arrayThree = arraySwap(iZero, jZero, iPlus, jZero);
-            Board boardThree = new Board(arrayThree);
-            StdOut.println("Board3: "+ boardThree);
-            neighbor.add(boardThree);
+            StdOut.println(iMinus + ", "+iPlus + ", " + jMinus + ", "+jPlus);
+            StdArrayIO.print(arrayThree);
+            StdArrayIO.print(blocks);
+//            Board boardThree = new Board(arrayThree);
+//            StdOut.println("Board3: "+ boardThree);
+//            neighbor.add(boardThree);
         }
         if (jPlus < N) {
             int[][] arrayFour = arraySwap(iZero, jZero, iZero, jPlus);
-            Board boardFour = new Board(arrayFour);
-            StdOut.println("Board4: "+ boardFour);
-            neighbor.add(boardFour);
+            StdOut.println(iMinus + ", "+iPlus + ", " + jMinus + ", "+jPlus);
+            StdArrayIO.print(arrayFour);
+//            Board boardFour = new Board(arrayFour);
+//            StdOut.println("Board4: "+ boardFour);
+//            neighbor.add(boardFour);
         }
         return neighbor;
     }
 
-    public String toString()               // string representation of this board (in the output format specified below)
+    public String toStringgit()               // string representation of this board (in the output format specified below)
     {
         StringBuilder str = new StringBuilder();
         str.append(dimension() + "\n");
