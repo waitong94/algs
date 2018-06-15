@@ -14,8 +14,8 @@
       <file leaf-file-name="Board.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/Board.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="352">
-              <caret line="178" column="52" lean-forward="true" selection-start-line="178" selection-start-column="52" selection-end-line="178" selection-end-column="52" />
+            <state relative-caret-position="411">
+              <caret line="199" column="9" selection-start-line="199" selection-start-column="9" selection-end-line="199" selection-end-column="9" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="e#269#270#0" expanded="true" />
@@ -60,6 +60,7 @@
       <find>board</find>
       <find>copy</find>
       <find>blocks</find>
+      <find>neigh</find>
     </findStrings>
   </component>
   <component name="IdeDocumentHistory">
@@ -310,8 +311,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/Board.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="352">
-          <caret line="178" column="52" lean-forward="true" selection-start-line="178" selection-start-column="52" selection-end-line="178" selection-end-column="52" />
+        <state relative-caret-position="411">
+          <caret line="199" column="9" selection-start-line="199" selection-start-column="9" selection-end-line="199" selection-end-column="9" />
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="e#269#270#0" expanded="true" />
