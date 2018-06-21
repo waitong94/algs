@@ -15,7 +15,7 @@ public class Solver {
         if(isSolvable())
         {
             isSolvable = true;
-            MinPQ<Board> pq = new MinPQ<Board>();
+            MinPQ<Board> pq = new MinPQ<Board>(1 , BY_HAMMING);
             //insert initial board into PQ
             pq.insert(initial);
             //generate all neighbouring queues
@@ -54,8 +54,8 @@ public class Solver {
 */
     public boolean isSolvable()            // is the initial board solvable?
     {
-        MinPQ<Board> pq = new MinPQ<Board>();
-        MinPQ<Board> pqTwin = new MinPQ<Board>();
+        MinPQ<Board> pq = new MinPQ<Board>(1, BY_HAMMING);
+        MinPQ<Board> pqTwin = new MinPQ<Board>(1 , BY_HAMMING);
         //insert initial board into PQ
         pq.insert(initial);
         Board twin = initial.twin();
