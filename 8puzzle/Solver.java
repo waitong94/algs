@@ -12,8 +12,9 @@ public class Solver {
     public Solver(Board initial)           // find a solution to the initial board (using the A* algorithm)
     {
         this.initial = initial;
-        if(isSolvable())
-        {
+//        if(isSolvable())
+//        {
+            StdOut.println("Solvable");
             isSolvable = true;
             MinPQ<Board> pq = new MinPQ<Board>(1 , BY_HAMMING);
             //insert initial board into PQ
@@ -32,8 +33,8 @@ public class Solver {
                 solution.addLast(minBoard);
                 moves++;
             }
-        }
-        else {isSolvable = false;}
+   //     }
+   //     else {isSolvable = false;}
     }
 
 
@@ -54,6 +55,7 @@ public class Solver {
 */
     public boolean isSolvable()            // is the initial board solvable?
     {
+        StdOut.println("isSolvable");
         MinPQ<Board> pq = new MinPQ<Board>(1, BY_HAMMING);
         MinPQ<Board> pqTwin = new MinPQ<Board>(1 , BY_HAMMING);
         //insert initial board into PQ
