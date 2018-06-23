@@ -12,60 +12,21 @@ public class Solver {
     public Solver(Board initial)           // find a solution to the initial board (using the A* algorithm)
     {
         this.initial = initial;
-//        if(isSolvable())
-//        {
-            StdOut.println("Solvable");
-            isSolvable = true;
-            MinPQ<Board> pq = new MinPQ<Board>(1 , BY_HAMMING);
-            //insert initial board into PQ
-            pq.insert(initial);
-            //generate all neighbouring queues
-            Board minBoard = initial;
-            while (!minBoard.isGoal()) {
-                for (Board i : minBoard.neighbors()) //insert neihboards in pq that arent already there
-                {
-                    for (Board j : pq) {
-                        if (i != j)
-                            pq.insert(i);
-                    }
-                }
-                minBoard = pq.delMin(); //pick board with lowest priority#
-                solution.addLast(minBoard);
-                moves++;
-            }
-   //     }
-   //     else {isSolvable = false;}
-    }
+        Board twin = initial.twin();
+        LinkedList<Board> solutionOne = new LinkedList<Board>();
+        LinkedList<Board> solutionTwo = new LinkedList<Board>();
+        MinPQ<Board> pq = new MinPQ<Board>(1 , BY_HAMMING);
 
-
-    //comparators for MinPQ
-
-    private static final Comparator<Board> BY_HAMMING = new ByHamming();
-  //  private static final Comparator<Board> BY_MANHATTAN = new ByManhattan();
-    private static class ByHamming implements Comparator<Board>
-    {
-        public int compare(Board x, Board y)
-        {return x.hamming() - y.hamming();}
-    }
- /*   private static class ByManhattan impelements Comparator<Board>
-    {
-        public int compare(Board x, Board y)
-        {return x.manhattan - y.manhattan;}
-    }
-*/
-    public boolean isSolvable()            // is the initial board solvable?
-    {
-        StdOut.println("isSolvable");
-        MinPQ<Board> pq = new MinPQ<Board>(1, BY_HAMMING);
-        MinPQ<Board> pqTwin = new MinPQ<Board>(1 , BY_HAMMING);
         //insert initial board into PQ
         pq.insert(initial);
-        Board twin = initial.twin();
+
+        //twin
+        MinPQ<Board> pqTwin = new MinPQ<Board>(1, BY_HAMMING);
         pqTwin.insert(twin);
+        Board minBoardTwin = twin;
         //generate all neighbouring queues
         Board minBoard = initial;
-        Board minBoardTwin = twin;
-        while (!minBoard.isGoal() || !minBoardTwin.isGoal()) {
+        while (!minBoard.isGoal() && !minBoardTwin.isGoal()) {
             for (Board i : minBoard.neighbors()) //insert neihboards in pq that arent already there
             {
                 for (Board j : pq) {
@@ -73,6 +34,7 @@ public class Solver {
                         pq.insert(i);
                 }
             }
+//            StdOut.println("Finished initial");
             for (Board i : minBoardTwin.neighbors()) //insert neihboards in pq that arent already there
             {
                 for (Board j : pqTwin) {
@@ -80,12 +42,36 @@ public class Solver {
                         pqTwin.insert(i);
                 }
             }
-            minBoard = pq.delMin(); //pick board with lowest priority
+//            StdOut.println("Finished twin");
+            minBoard = pq.delMin(); //pick board with lowest priority#
+//            StdOut.println("minBoard:  " + minBoard);
             minBoardTwin = pqTwin.delMin();
+//            StdOut.println("minBoardTwin:  " + minBoardTwin);
+            solution.addLast(minBoard);
+            moves++;
         }
-        if (minBoard.isGoal())
-            return true;
-        return false;
+        isSolvable = minBoard.isGoal();
+    }
+
+
+    //comparators for MinPQ
+
+    private static final Comparator<Board> BY_HAMMING = new ByHamming();
+    private static final Comparator<Board> BY_MANHATTAN = new ByManhattan();
+    private static class ByHamming implements Comparator<Board>
+    {
+        public int compare(Board x, Board y)
+        {return x.hamming() - y.hamming();}
+    }
+    private static class ByManhattan implements Comparator<Board>
+    {
+        public int compare(Board x, Board y)
+        {return x.manhattan() - y.manhattan();}
+    }
+
+    public boolean isSolvable()            // is the initial board solvable?
+    {
+        return isSolvable;
     }
     public int moves()
     {

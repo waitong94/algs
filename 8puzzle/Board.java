@@ -187,6 +187,10 @@ public class Board {
             }
         }
         Board board = new Board(array);
+        StdOut.println(board);
+        //test twin
+        Board testTwin = board.twin();
+        StdOut.println("twin: " + testTwin);
         //test hamming
         int testHamming = board.hamming();
         StdOut.println("hamming: " + testHamming);
