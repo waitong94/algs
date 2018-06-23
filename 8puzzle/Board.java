@@ -106,9 +106,11 @@ public class Board {
         }
         return null;
     }
-
-    public boolean equals(Board y)        // does this board equal y?
-    {
+    public boolean equals(Object other) {
+        if (other == this) return true;
+        if (other == null) return false;
+        if (other.getClass() != this.getClass()) return false;
+        Board y = (Board) other;
         for (int i = 0; i < blocks.length;i++) {
             for (int j = 0; j < blocks.length; j++) {
                 if (blocks[i][j] != y.blocks[i][j])
@@ -117,7 +119,6 @@ public class Board {
         }
         return true;
     }
-
     //TODO FIX ITERABLE: issue - code doesnt know that new object has been genrated
     public Iterable<Board> neighbors()     // all neighboring boards
     {
