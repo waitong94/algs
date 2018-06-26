@@ -15,34 +15,34 @@ public class Solver {
         Board twin = initial.twin();
         LinkedList<Board> solutionOne = new LinkedList<Board>();
         LinkedList<Board> solutionTwo = new LinkedList<Board>();
-        MinPQ<Board> pq = new MinPQ<Board>(1 , BY_HAMMING);
+        MinPQ<Board> pq = new MinPQ<Board>(1 , BY_MANHATTAN);
 
         //insert initial board into PQ
         pq.insert(initial);
 
         //twin
-        MinPQ<Board> pqTwin = new MinPQ<Board>(1, BY_HAMMING);
+        MinPQ<Board> pqTwin = new MinPQ<Board>(1, BY_MANHATTAN);
         pqTwin.insert(twin);
         Board minBoardTwin = twin;
         //generate all neighbouring queues
         Board minBoard = initial;
+        Board prenode = null;
+        Board prenodeTwin = null;
         while (!minBoard.isGoal() && !minBoardTwin.isGoal()) {
             for (Board i : minBoard.neighbors()) //insert neihboards in pq that arent already there
             {
-                for (Board j : pq) {
-                    if (i != j)
-                        pq.insert(i);
-                }
+                if (i != prenode)
+                    pq.insert(i);
             }
 //            StdOut.println("Finished initial");
             for (Board i : minBoardTwin.neighbors()) //insert neihboards in pq that arent already there
             {
-                for (Board j : pqTwin) {
-                    if (i != j)
-                        pqTwin.insert(i);
-                }
+                if (i != prenodeTwin)
+                    pqTwin.insert(i);
             }
 //            StdOut.println("Finished twin");
+            prenode = minBoard;
+            prenodeTwin = minBoardTwin;
             minBoard = pq.delMin(); //pick board with lowest priority#
 //            StdOut.println("minBoard:  " + minBoard);
             minBoardTwin = pqTwin.delMin();

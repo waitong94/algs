@@ -117,7 +117,7 @@ public class Board {
                     return false;
             }
         }
-        return true;
+        return this.dimension() == y.dimension();
     }
     //TODO FIX ITERABLE: issue - code doesnt know that new object has been genrated
     public Iterable<Board> neighbors()     // all neighboring boards
