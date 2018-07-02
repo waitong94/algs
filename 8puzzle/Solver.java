@@ -13,8 +13,6 @@ public class Solver {
     {
         this.initial = initial;
         Board twin = initial.twin();
-        LinkedList<Board> solutionOne = new LinkedList<Board>();
-        LinkedList<Board> solutionTwo = new LinkedList<Board>();
         MinPQ<Board> pq = new MinPQ<Board>(1 , BY_MANHATTAN);
 
         //insert initial board into PQ
@@ -28,16 +26,18 @@ public class Solver {
         Board minBoard = initial;
         Board prenode = null;
         Board prenodeTwin = null;
+        solution.addLast(minBoard);
         while (!minBoard.isGoal() && !minBoardTwin.isGoal()) {
             for (Board i : minBoard.neighbors()) //insert neihboards in pq that arent already there
             {
-                if (i != prenode)
+                if (prenode == null || !i.equals(prenode)) {
                     pq.insert(i);
+                }
             }
 //            StdOut.println("Finished initial");
             for (Board i : minBoardTwin.neighbors()) //insert neihboards in pq that arent already there
             {
-                if (i != prenodeTwin)
+                if (prenodeTwin == null || !i.equals(prenodeTwin))
                     pqTwin.insert(i);
             }
 //            StdOut.println("Finished twin");
