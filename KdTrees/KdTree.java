@@ -6,24 +6,23 @@ import edu.princeton.cs.algs4.StdOut;
 import java.util.LinkedList;
 
 public class KdTree {
-    private static final boolean RED = true;
-    private static final boolean BLUE = false;
+    private static final boolean VERT = true;
+    private static final boolean HORZ = false;
 
     private LinkedList<Point2D> queue  = new LinkedList<Point2D>();
-
+    private RectHV rect;
     private Node root;
     private class Node {
         private Point2D point;
-        private Node left, right, parent;
+        private Node leftBottom, rightTop;
         private int size;
-        private boolean color;
-        private RectHV rect;
-
-        public Node (Point2D point, boolean color, int size)
+        private boolean vertical;
+        
+        public Node (Point2D point, boolean vertical, int size)
         {
             this.point = point;
             this.size = size;
-            this.color = color;
+            this.vertical = vertical;
         }
     }
     public         KdTree()                               // construct an empty set of points
@@ -32,10 +31,10 @@ public class KdTree {
     }
 
     /* Node methods*/
-    private boolean isRed(Node x)
+    private boolean isVert(Node x)
     {
         if (x == null) return false;
-        return x.color == RED;
+        return x.vertical == VERT;
     }
     private int size(Node x)
     {
@@ -55,22 +54,7 @@ public class KdTree {
 
     private Node put(Node h, Point2D p)
     {
-        Node x = new Node(p, RED, 1);
-        x.parent = h;
-        x.color = !isRed(x.parent);
-        if(h == null) return x;
-        double cmp = h.point.x() - p.x();
-        if (cmp < 0) {
-            h.left = put(h.left, p);
-        }
-        else if (cmp > 0)
-        {
-            h.right = put(h.right, p);
-        }
-        else h.point = p;
-        h.size = 1 + size(h.left) + size(h.right);
 
-        return h;
     }
     public              void insert(Point2D p)              // add the point to the set (if it is not already in the set)
     {
@@ -90,8 +74,8 @@ public class KdTree {
         while(x != null)
         {
             double cmp = x.point.x() - p.x();
-            if (cmp < 0) x = x.left;
-            else if (cmp > 0) x = x.right;
+            if (cmp < 0) x = x.leftBottom;
+            else if (cmp > 0) x = x.rightTop;
             else return x.point;
         }
         return null;
