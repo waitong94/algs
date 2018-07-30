@@ -17,7 +17,7 @@ public class KdTree {
         private Node leftBottom, rightTop;
         private int size;
         private boolean vertical;
-        
+
         public Node (Point2D point, boolean vertical, int size)
         {
             this.point = point;
@@ -31,15 +31,15 @@ public class KdTree {
     }
 
     /* Node methods*/
-    private boolean isVert(Node x)
+    private boolean isVert(Node node)
     {
-        if (x == null) return false;
-        return x.vertical == VERT;
+        if (node == null) return false;
+        return node.vertical == VERT;
     }
-    private int size(Node x)
+    private int size(Node node)
     {
-        if (x == null) return 0;
-        return x.size;
+        if (node == null) return 0;
+        return node.size;
     }
 
 
@@ -52,40 +52,62 @@ public class KdTree {
         return size(root);
     }
 
-    private Node put(Node h, Point2D p)
+    private void changeVertical(Node node)
     {
-
+        node.vertical = !node.vertical;
     }
-    public              void insert(Point2D p)              // add the point to the set (if it is not already in the set)
+/*Private method for inserting points into trees: uses size to determine if vertical or not*/
+    private Node put(Node node, Point2D point)
     {
-        if (p == null) throw new IllegalArgumentException("first point is null");
-        root = put(root, p);
-        queue.add(p);
-    }
-
-    public           boolean contains(Point2D p)            // does the set contain point p?
-    {
-        if (p == null) throw new IllegalArgumentException("first point is null");
-        return get(root, p) != null;
-    }
-
-    private Point2D get(Node x, Point2D p)
-    {
-        while(x != null)
+        if (node == null) return new Node(point,VERT,1);
+        if (node.vertical == VERT)
         {
-            double cmp = x.point.x() - p.x();
-            if (cmp < 0) x = x.leftBottom;
-            else if (cmp > 0) x = x.rightTop;
-            else return x.point;
+            if (point.x() < node.point.x())//if x is smaller than parent go left and parent is vert;
+                node.leftBottom = put(node.leftBottom,point);
+            else if (point.x() >= node.point.x()) // " bigger, go right and "
+                node.rightTop = put(node.rightTop,point);
+            changeVertical(node.leftBottom);
+        }
+        if (node.vertical == HORZ)
+        {
+            if (point.y() < node.point.y())//if x is smaller than parent go left and parent is vert;
+                node.leftBottom = put(node.leftBottom,point);
+            if (point.y() >= node.point.y()) // " bigger, go right and "
+                node.rightTop = put(node.rightTop,point);
+        }
+        node.size = size(node.leftBottom) + size(node.rightTop) + 1;        //size + 1
+        return node;
+    }
+    public              void insert(Point2D point)              // add the point to the set (if it is not already in the set)
+    {
+        if (point == null) throw new IllegalArgumentException("first point is null");
+        root = put(root, point);
+        queue.add(point);
+    }
+
+    public           boolean contains(Point2D point)            // does the set contain point p?
+    {
+        if (point == null) throw new IllegalArgumentException("first point is null");
+        return get(root, point) != null;
+    }
+
+    private Point2D get(Node node, Point2D point)
+    {
+        while(node != null)
+        {
+            double cmp = node.point.x() - point.x();
+            if (cmp < 0) node = node.leftBottom;
+            else if (cmp > 0) node = node.rightTop;
+            else return node.point;
         }
         return null;
     }
 
     public              void draw()                         // draw all points to standard draw
     {
-        for( Point2D p : points())
+        for( Point2D point : points())
         {
-            StdDraw.point(p.x(), p.y());
+            StdDraw.point(point.x(), point.y());
         }
         //todo draw lines
     }
