@@ -63,10 +63,16 @@ public class KdTree {
         if (node.vertical == VERT)
         {
             if (point.x() < node.point.x())//if x is smaller than parent go left and parent is vert;
-                node.leftBottom = put(node.leftBottom,point);
+            {
+                node.leftBottom = put(node.leftBottom, point);
+                changeVertical(node.leftBottom);
+            }
             else if (point.x() >= node.point.x()) // " bigger, go right and "
-                node.rightTop = put(node.rightTop,point);
-            changeVertical(node.leftBottom);
+            {
+                node.rightTop = put(node.rightTop, point);
+                changeVertical(node.rightTop);
+            }
+
         }
         if (node.vertical == HORZ)
         {
@@ -89,15 +95,20 @@ public class KdTree {
     {
         if (point == null) throw new IllegalArgumentException("first point is null");
         return get(root, point) != null;
-    }
+    }//TODO fix gets unit test doesnt work
 
     private Point2D get(Node node, Point2D point)
     {
+        double cmp = 0.0;
         while(node != null)
         {
-            double cmp = node.point.x() - point.x();
-            if (cmp < 0) node = node.leftBottom;
-            else if (cmp > 0) node = node.rightTop;
+            if(node.vertical == VERT)
+                cmp =  - node.point.x() + point.x();
+            else
+                cmp = - node.point.y() + point.y();
+            //StdOut.println("point: " + point + ", CMP: " + cmp + ", Node.vertical: " + node.vertical +", Node.point: " + node.point);
+            if (cmp < 0.0) node = node.leftBottom;
+            else if (cmp > 0.0)node = node.rightTop;
             else return node.point;
         }
         return null;
@@ -136,5 +147,6 @@ public class KdTree {
         StdOut.println(testTree.contains(point2));
         StdOut.println(testTree.contains(point3));
         StdOut.println(testTree.contains(point4));
+        StdOut.println(testTree.points());
     }
 }
