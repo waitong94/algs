@@ -4,25 +4,27 @@ import edu.princeton.cs.algs4.Point2D;
 import edu.princeton.cs.algs4.RectHV;
 import edu.princeton.cs.algs4.StdOut;
 import java.util.LinkedList;
+import edu.princeton.cs.algs4.In;
 
 public class KdTree {
     private static final boolean VERT = true;
     private static final boolean HORZ = false;
 
     private LinkedList<Point2D> queue  = new LinkedList<Point2D>();
-    private RectHV rect;
+
     private Node root;
     private class Node {
         private Point2D point;
         private Node leftBottom, rightTop;
         private int size;
         private boolean vertical;
-
+        private RectHV rect;
         public Node (Point2D point, boolean vertical, int size)
         {
             this.point = point;
             this.size = size;
             this.vertical = vertical;
+            rect = new RectHV(0.0, 0.0, 1.0, 1.0);
         }
     }
     public         KdTree()                               // construct an empty set of points
@@ -52,9 +54,17 @@ public class KdTree {
         return size(root);
     }
 
-    private void changeVertical(Node node)
+    private void changeToHorizontal(Node node)
     {
-        node.vertical = !node.vertical;
+        node.vertical = HORZ;
+    }
+
+    private void setRectHV(Node node, double xmin, double ymin, double xmax, double ymax)
+    {
+        if(node.rect.xmin() != xmin || node.rect.ymin() != ymin || node.rect.xmax() != xmax || node.rect.ymax() != ymax )
+        {
+            node.rect = new RectHV(xmin, ymin, xmax, ymax);
+        }
     }
 /*Private method for inserting points into trees: uses size to determine if vertical or not*/
     private Node put(Node node, Point2D point)
@@ -65,21 +75,29 @@ public class KdTree {
             if (point.x() < node.point.x())//if x is smaller than parent go left and parent is vert;
             {
                 node.leftBottom = put(node.leftBottom, point);
-                changeVertical(node.leftBottom);
+                setRectHV(node.leftBottom, node.rect.xmin(), node.rect.ymin(), node.point.x(), node.rect.ymax());
+                changeToHorizontal(node.leftBottom);
             }
             else if (point.x() >= node.point.x()) // " bigger, go right and "
             {
                 node.rightTop = put(node.rightTop, point);
-                changeVertical(node.rightTop);
+                setRectHV(node.rightTop, node.point.x(), node.rect.ymin(), node.rect.xmax(), node.rect.ymax());
+                changeToHorizontal(node.rightTop);
             }
 
         }
         if (node.vertical == HORZ)
         {
             if (point.y() < node.point.y())//if x is smaller than parent go left and parent is vert;
-                node.leftBottom = put(node.leftBottom,point);
-            if (point.y() >= node.point.y()) // " bigger, go right and "
-                node.rightTop = put(node.rightTop,point);
+            {
+                node.leftBottom = put(node.leftBottom, point);
+                setRectHV(node.leftBottom, node.rect.xmin(), node.rect.ymin(), node.rect.xmax(), node.point.y());
+            }
+            else if (point.y() >= node.point.y()) // " bigger, go right and "
+            {
+                node.rightTop = put(node.rightTop, point);
+                setRectHV(node.rightTop, node.rect.xmin(), node.point.y(), node.rect.xmax(), node.rect.ymax());
+            }
         }
         node.size = size(node.leftBottom) + size(node.rightTop) + 1;        //size + 1
         return node;
@@ -95,32 +113,72 @@ public class KdTree {
     {
         if (point == null) throw new IllegalArgumentException("first point is null");
         return get(root, point) != null;
-    }//TODO fix gets unit test doesnt work
+    }
+
 
     private Point2D get(Node node, Point2D point)
     {
         double cmp = 0.0;
-        while(node != null)
-        {
-            if(node.vertical == VERT)
-                cmp =  - node.point.x() + point.x();
-            else
-                cmp = - node.point.y() + point.y();
+        double chk = 0.0;
+        while(node != null) {
+            if (node.vertical == VERT) {
+                cmp = -node.point.x() + point.x();
+                chk = -node.point.y() + point.y();
+            } else {
+                cmp = -node.point.y() + point.y();
+                chk = -node.point.x() + point.x();
+            }
+            //StdOut.println("point: " + point + ", CMP: " + cmp +   " node.vertical: " + node.vertical +", Node.point: " + node.point);
+            if (cmp < 0.0) node = node.leftBottom;
+            else if (cmp > 0.0 )node = node.rightTop;
+            else if (chk != 0.0)node = node.rightTop;
+            else return node.point;
+        }
+        return null;
+    }
+
+    private Node getNode(Node node, Point2D point)
+    {
+        double cmp = 0.0;
+        double chk = 0.0;
+        while(node != null) {
+            if (node.vertical == VERT) {
+                cmp = -node.point.x() + point.x();
+                chk = -node.point.y() + point.y();
+            } else {
+                cmp = -node.point.y() + point.y();
+                chk = -node.point.x() + point.x();
+            }
             //StdOut.println("point: " + point + ", CMP: " + cmp + ", Node.vertical: " + node.vertical +", Node.point: " + node.point);
             if (cmp < 0.0) node = node.leftBottom;
-            else if (cmp > 0.0)node = node.rightTop;
-            else return node.point;
+            else if (cmp > 0.0 )node = node.rightTop;
+            else if (chk != 0.0)node = node.rightTop;
+            else return node;
         }
         return null;
     }
 
     public              void draw()                         // draw all points to standard draw
     {
-        for( Point2D point : points())
+        Node node;
+        StdDraw.setPenRadius(0.01);
+
+        for (Point2D point : points())
         {
+            node = getNode(root, point);
+            StdOut.println(" Node.vertical: " + node.vertical +", Node.point: " + node.point+", Node.rect: " + node.rect.toString());
+            if(node.vertical == VERT)//if vert draw red line
+            {
+                StdDraw.setPenColor(StdDraw.RED);
+                StdDraw.line(node.point.x(),node.rect.ymin(),node.point.x(),node.rect.ymax());
+            }else{
+                StdDraw.setPenColor(StdDraw.BLUE);
+                StdDraw.line(node.rect.xmin(),node.point.y(),node.rect.xmax(),node.point.y());
+            }
+            StdDraw.setPenColor();
             StdDraw.point(point.x(), point.y());
         }
-        //todo draw lines
+        //do after rect
     }
 
     private Iterable<Point2D> points()
@@ -135,18 +193,31 @@ public class KdTree {
 
     public static void main(String[] args)                  // unit testing of the methods (optional)
     {
-        Point2D point1 = new Point2D(0.5,0.5);
-        Point2D point2 = new Point2D(0.4,0.4);
-        Point2D point3 = new Point2D(0.6,0.6);
-        Point2D point4 = new Point2D(0.2,0.5);
-        KdTree testTree = new KdTree();
-        testTree.insert(point1);
-        testTree.insert(point2);
-        testTree.insert(point3);
-        StdOut.println(testTree.contains(point1));
-        StdOut.println(testTree.contains(point2));
-        StdOut.println(testTree.contains(point3));
-        StdOut.println(testTree.contains(point4));
-        StdOut.println(testTree.points());
+//        Point2D point1 = new Point2D(0.5,0.5);
+//        Point2D point2 = new Point2D(0.4,0.4);
+//        Point2D point3 = new Point2D(0.6,0.6);
+//        Point2D point4 = new Point2D(0.2,0.5);
+//        KdTree testTree = new KdTree();
+//        testTree.insert(point1);
+//        testTree.insert(point2);
+//        testTree.insert(point3);
+//        StdOut.println(testTree.contains(point1));
+//        StdOut.println(testTree.contains(point2));
+//        StdOut.println(testTree.contains(point3));
+//        StdOut.println(testTree.contains(point4));
+//        StdOut.println(testTree.points());
+//        testTree.draw();
+        String filename = args[0];
+        In in = new In(filename);
+        KdTree kdtree = new KdTree();
+        while (!in.isEmpty()) {
+            double x = in.readDouble();
+            double y = in.readDouble();
+            Point2D p = new Point2D(x, y);
+            kdtree.insert(p);
+        }
+        StdOut.println(kdtree.points());
+        kdtree.draw();
+
     }
 }
