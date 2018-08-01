@@ -3,6 +3,8 @@ import edu.princeton.cs.algs4.StdDraw;
 import edu.princeton.cs.algs4.Point2D;
 import edu.princeton.cs.algs4.RectHV;
 import java.util.LinkedList;
+import edu.princeton.cs.algs4.In;
+import edu.princeton.cs.algs4.StdOut;
 
 public class PointSET {
     private SET<Point2D> set;
@@ -68,6 +70,16 @@ public class PointSET {
 
     public static void main(String[] args)                  // unit testing of the methods (optional)
     {
-
+        String filename = args[0];
+        In in = new In(filename);
+        PointSET kdtree = new PointSET();
+        while (!in.isEmpty()) {
+            double x = in.readDouble();
+            double y = in.readDouble();
+            Point2D p = new Point2D(x, y);
+            kdtree.insert(p);
+        }
+        //StdOut.println(kdtree.points());
+        kdtree.draw();
     }
 }

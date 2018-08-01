@@ -10,7 +10,8 @@ public class KdTree {
     private static final boolean VERT = true;
     private static final boolean HORZ = false;
 
-    private LinkedList<Point2D> queue  = new LinkedList<Point2D>();
+    private LinkedList<Point2D> allPointsQueue  = new LinkedList<Point2D>();
+    private LinkedList<Point2D> rangeQueue  = new LinkedList<Point2D>();
 
     private Node root;
     private class Node {
@@ -106,7 +107,7 @@ public class KdTree {
     {
         if (point == null) throw new IllegalArgumentException("first point is null");
         root = put(root, point);
-        queue.add(point);
+        allPointsQueue.add(point);
     }
 
     public           boolean contains(Point2D point)            // does the set contain point p?
@@ -149,7 +150,7 @@ public class KdTree {
                 cmp = -node.point.y() + point.y();
                 chk = -node.point.x() + point.x();
             }
-            //StdOut.println("point: " + point + ", CMP: " + cmp + ", Node.vertical: " + node.vertical +", Node.point: " + node.point);
+            StdOut.println("point: " + point + ", CMP: " + cmp + ", CHK: " + chk +  ", Node.vertical: " + node.vertical +", Node.point: " + node.point);
             if (cmp < 0.0) node = node.leftBottom;
             else if (cmp > 0.0 )node = node.rightTop;
             else if (chk != 0.0)node = node.rightTop;
@@ -166,7 +167,7 @@ public class KdTree {
         for (Point2D point : points())
         {
             node = getNode(root, point);
-            StdOut.println(" Node.vertical: " + node.vertical +", Node.point: " + node.point+", Node.rect: " + node.rect.toString());
+            //StdOut.println(" Node.vertical: " + node.vertical +", Node.point: " + node.point+", Node.rect: " + node.rect.toString());
             if(node.vertical == VERT)//if vert draw red line
             {
                 StdDraw.setPenColor(StdDraw.RED);
@@ -183,12 +184,28 @@ public class KdTree {
 
     private Iterable<Point2D> points()
     {
-        return queue;
+        return allPointsQueue;
     }
-//    public Iterable<Point2D> range(RectHV rect)             // all points that are inside the rectangle (or on the boundary)
-//    {
-//
-//    }
+
+    private Node range(Node searchNode, RectHV rect){
+        if (rect.contains(searchNode.point))
+            rangeQueue.add(searchNode.point);
+
+        if (searchNode.leftBottom != null && searchNode.leftBottom.rect.intersects(rect))//if right subtree doesnt intersect
+        {
+            searchNode = range(searchNode.leftBottom, rect); //dont explore right subtree
+        }
+        if (searchNode.rightTop != null && searchNode.rightTop.rect.intersects(rect)) {
+            searchNode = range(searchNode.rightTop, rect);
+        }
+        return searchNode;
+    }
+    public Iterable<Point2D> range(RectHV rect)             // all points that are inside the rectangle (or on the boundary)
+    {
+    //if the query rectangle does not intersect node rectangle , do not explore that node (or its subtrees)
+        Node node = range(root,rect);
+        return rangeQueue;
+    }
 //    public           Point2D nearest(Point2D p)             // a nearest neighbor in the set to point p; null if the set is empty
 
     public static void main(String[] args)                  // unit testing of the methods (optional)
@@ -216,7 +233,7 @@ public class KdTree {
             Point2D p = new Point2D(x, y);
             kdtree.insert(p);
         }
-        StdOut.println(kdtree.points());
+        //StdOut.println(kdtree.points());
         kdtree.draw();
 
     }
